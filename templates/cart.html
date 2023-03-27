@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block 'content' %}
+<div class=" flex">
+    <div class="w-3/4">
+      <div class=" px-4 mx-auto lg:w-3/4 md:w-full mt-10">
+        {% for order_item in order.items.all %}
+            <div class="flex mb-4  shadow-2xl border-opacity-50 p-2 sm:flex-row flex-col">
+              <div class="w-32 h-24 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+                <img src="{{order_item.item.image.url}}" alt="" style="height: 100px; width: 200px;">
+              </div>
+
+              <div class="flex-grow">
+                <h2 class="text-gray-900 text-lg title-font font-medium ">{{order_item.item.name}}</h2>
+                <h2 class="text-gray-900 title-font font-thin  text-sm">Category : {{order_item.item.category}}</h2>
+                <h2 class="text-gray-900 title-font font-thin mb-1 text-sm">rs {{order_item.get_price}} <del class="text-red-600">{{order_item.get_discount_price}}</del></h2>
+                <div class=" flex gap-2">
+                    <a class="bg-red-500 px-2 rounded" href="{% url 'removeCart' order_item.item.slug %}">-</a>
+                    <h1>{{order_item.qty}}</h1>
+                    <a class="bg-green-400 px-2 rounded" href="{% url 'addCart' order_item.item.slug %}">+</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+    </div>
+    <div class="w-1/4 p-10">
+      <div class="">
+        <table class=" shadow-2xl w-full text-start">
+          <tr>
+            <th>total amount</th>
+            <td>{{order.get_price_amount}}</td>
+          </tr>
+          <tr>
+            <th>total tex</th>
+            <td>{{order.get_tex_amount}}</td>
+          </tr>
+          <tr>
+            <th> discount price</th>
+            <td>{{order.get_total_amount}}</td>
+          </tr>
+          {% if order.coupon %}
+          <tr>
+            <th>Coupon</th>
+            <td>{{order.coupon.amount}} <a href="{% url 'removecoupon' %}" class="bg-red-500 p-1 rounded-full px-2 text-sm ml-5 text-white">X</a></td>
+          </tr>
+          {% endif %}
+          <tr>
+            <th>paybal amount</th>
+            <td>{{order.get_paybal_amount}}</td>
+          </tr>
+        </table>
+  
+      </div>
+      {% if not order.coupon %}
+        <form action="{% url 'addCoupon' %}" method="post" class="bg-yellow-500 mt-10 p-4 flex ">
+          {% csrf_token %}
+          <div class="">
+            <input type="text" name="code" class=' p-2'>
+            <button class=" bg-green-500 p-2">submit</button>
+          </div>
+        </form>
+      {% endif %}
+      <div class=" mt-5 flex flex-col text-center gap-2 text-white">
+        <a href="" class=" bg-green-500 p-2 w-full">go Back</a>
+        <a href="{% url 'checkout' %}" class=" bg-red-500 p-2 w-full">Checkout</a>
+      </div>
+        
+      </div>
+    </div>
+  </div>
+{% endblock  %}

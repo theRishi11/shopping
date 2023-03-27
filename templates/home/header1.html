@@ -1,0 +1,33 @@
+<header class="text-white bg-blue-500 font-semibold text-3xl body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <a class="flex title-font font-medium items-center  mb-4 md:mb-0">
+      <img src="https://cdn.pixabay.com/photo/2017/03/29/04/09/shopping-icon-2184065_1280.png" alt=""
+        class="w-10 h-10 flex">
+      <span class="ml-3 text-xl">Shopkart</span>
+    </a>
+    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+      <a href="{%url 'home'%}" class="mr-5 hover:text-gray-900">Home</a>
+
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="mr-5 hover:text-gray-900">Logout</a>
+      <a href="{%url 'checkout' %}" class="mr-5 hover:text-gray-900">Checkout</a>
+
+
+      {% else %}
+      <a href="{%url 'register' %}" class="mr-5 hover:text-gray-900">Register</a>
+      <a href="{%url 'login' %}" class="mr-5 hover:text-gray-900">Login</a>
+      {% endif %}
+
+
+      <a href="{% url 'cart' %}" class="mr-5 hover:text-gray-900">Cart</a>
+
+      <form action="{%url 'search' %}" class="mx-auto d-flex">
+        <input type="text" name="search" class="form-control text-black" size="70">
+        <input type="submit" value="Go" class="btn btn-danger">
+      </form>
+      
+    </nav>
+    
+   
+  </div>
+</header>
